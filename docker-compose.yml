@@ -1,0 +1,27 @@
+version: '3.9'
+
+services:
+  nginx:
+    build:
+      context: ./nginx
+    depends_on:
+      - microservice1_web
+      - microservice2_web
+    ports:
+      - 80:80
+
+  microservice1_web:
+    build:
+      context: ./microservice1
+    volumes:
+      - .:/microservice1/
+    ports:
+      - 8001:8000
+
+  microservice2_web:
+    build:
+      context: ./microservice2
+    volumes:
+      - .:/microservice2/
+    ports:
+      - 8002:8000
