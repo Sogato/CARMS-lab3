@@ -8,12 +8,14 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
+                echo 'Проверка...'
                 checkout scm // Получение кода из репозитория
             }
         }
 
         stage('Build and Run Docker Compose') {
             steps {
+                echo 'Развертывание...'
                 script {
                     // Запуск Docker Compose для сборки и запуска контейнеров
                     sh 'docker-compose up --build -d'
@@ -23,6 +25,7 @@ pipeline {
 
         stage('Test') {
             steps {
+                echo 'Тестирование...'
                 script {
                     // Тестирование работоспособности сервисов
                     sh 'curl http://localhost/microservice1'
@@ -33,6 +36,7 @@ pipeline {
 
         stage('Deploy') {
             steps {
+                echo 'Гойда...'
                 script {
                     // Отправка образов в реестр, если это необходимо
                     // sh 'docker push your-docker-hub-user/microservice1'
