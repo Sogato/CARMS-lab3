@@ -18,7 +18,7 @@ pipeline {
                 echo 'Развертывание...'
                 script {
                     // Запуск Docker Compose для сборки и запуска контейнеров
-                    sh 'docker-compose up --build -d'
+                    sh 'docker-compose up --build'
                 }
             }
         }
