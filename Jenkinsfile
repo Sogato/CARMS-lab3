@@ -9,7 +9,8 @@ pipeline {
         stage('Checkout') {
             steps {
                 echo 'Проверка...'
-                checkout scm // Получение кода из репозитория
+                // Получение кода из репозитория
+                checkout scm
             }
         }
 
@@ -17,8 +18,12 @@ pipeline {
             steps {
                 echo 'Развертывание...'
                 script {
-                    // Запуск Docker Compose для сборки и запуска контейнеров
-                    sh 'docker-compose up --build'
+                    // Определение ОС и запуск Docker Compose соответствующим образом
+                    if (isUnix()) {
+                        sh 'docker-compose up --build'
+                    } else {
+                        bat 'docker-compose up --build'
+                    }
                 }
             }
         }
@@ -27,9 +32,14 @@ pipeline {
             steps {
                 echo 'Тестирование...'
                 script {
-                    // Тестирование работоспособности сервисов
-                    sh 'curl http://localhost/microservice1'
-                    sh 'curl http://localhost/microservice2'
+                    // Тестирование работоспособности сервисов с учетом ОС
+                    if (isUnix()) {
+                        sh 'curl http://localhost/microservice1'
+                        sh 'curl http://localhost/microservice2'
+                    } else {
+                        bat 'curl http://localhost/microservice1'
+                        bat 'curl http://localhost/microservice2'
+                    }
                 }
             }
         }
@@ -37,8 +47,14 @@ pipeline {
 
     post {
         always {
-            // Очистка после завершения работы
-            sh 'docker-compose down'
+            // Очистка после завершения работы с учетом ОС
+            script {
+                if (isUnix()) {
+                    sh 'docker-compose down'
+                } else {
+                    bat 'docker-compose down'
+                }
+            }
         }
     }
 }
