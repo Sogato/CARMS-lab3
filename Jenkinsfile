@@ -33,17 +33,6 @@ pipeline {
                 }
             }
         }
-
-        stage('Deploy') {
-            steps {
-                echo 'Гойда...'
-                script {
-                    // Отправка образов в реестр, если это необходимо
-                    // sh 'docker push your-docker-hub-user/microservice1'
-                    // sh 'docker push your-docker-hub-user/microservice2'
-                }
-            }
-        }
     }
 
     post {
