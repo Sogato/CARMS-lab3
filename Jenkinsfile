@@ -20,9 +20,9 @@ pipeline {
                 script {
                     // Определение ОС и запуск Docker Compose соответствующим образом
                     if (isUnix()) {
-                        sh 'docker-compose up --build'
+                        sh 'docker-compose up --build -d'
                     } else {
-                        bat 'docker-compose up --build'
+                        bat 'docker-compose up --build -d'
                     }
                 }
             }
